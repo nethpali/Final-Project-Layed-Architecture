@@ -19,7 +19,9 @@ public class PlaceOrderModal {
                 }else{
                     DBConnection.getInstance().getConnection().rollback();
                 }
-            }else{ }
+            }else{
+
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
