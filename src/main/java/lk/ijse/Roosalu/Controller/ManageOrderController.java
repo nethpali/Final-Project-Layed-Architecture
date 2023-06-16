@@ -14,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.Roosalu.Util.Service;
+import lk.ijse.Roosalu.bo.Custom.Impl.PlaceOrderBoImpl;
+import lk.ijse.Roosalu.bo.Custom.PlaceOrderBo;
 import lk.ijse.Roosalu.db.DBConnection;
 import lk.ijse.Roosalu.dto.*;
 import lk.ijse.Roosalu.dto.tm.OrderTM;
@@ -60,6 +62,8 @@ public class ManageOrderController implements Initializable {
     public TextField txtBillOrder;
     public Label lblNetTotal;
     public Label lblOrderId;
+
+    PlaceOrderBo placeOrderBo = new PlaceOrderBoImpl();
 
     //public DatePicker dpOrderDeadLine;
     //public Label lblOrderId;
@@ -136,7 +140,7 @@ public class ManageOrderController implements Initializable {
         //load();
     }
 
-    public void generateNewOrderId() throws SQLException {
+    public void generateNewOrderId() {
         try{
             String nextOrderId= OrderModel.generateNextOrderId();
             lblOrderId.setText(nextOrderId);
@@ -335,7 +339,10 @@ public class ManageOrderController implements Initializable {
                         ProductionModel.search(orderTM.getProduct_id()).getQuantity() - orderTM.getQuantity(),
                         orderTM.getUnit_price()
                 );
-                System.out.println(production.getQuantity());
+
+                boolean isPlaced = placeOrderBo.placeOrder(order,production);
+
+                /*System.out.println(production.getQuantity());
                 boolean isPlaced = false;
                 isPlaced = PlaceOrderModal.placeOrder(order, production);
                 if (isPlaced) {
@@ -343,12 +350,11 @@ public class ManageOrderController implements Initializable {
                     new Alert(Alert.AlertType.CONFIRMATION, "Order Placed!").show();
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Order Not Placed!").show();
-                }
+                }*/
             }
         }catch (SQLException e){
 
         }
-
         clearAll();
 
     }
