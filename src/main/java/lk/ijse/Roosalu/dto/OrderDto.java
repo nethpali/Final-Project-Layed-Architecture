@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @ToString
-public class Order {
+public class OrderDto {
     private String order_id;
     private String date;
     private String agent_id;

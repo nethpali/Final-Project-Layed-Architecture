@@ -18,6 +18,7 @@ import lk.ijse.Roosalu.db.DBConnection;
 import lk.ijse.Roosalu.dto.*;
 import lk.ijse.Roosalu.dto.tm.OrderTM;
 import lk.ijse.Roosalu.model.AgentModel;
+import lk.ijse.Roosalu.model.OrderModel;
 import lk.ijse.Roosalu.model.PlaceOrderModal;
 import lk.ijse.Roosalu.model.ProductionModel;
 import lombok.SneakyThrows;
@@ -58,6 +59,7 @@ public class ManageOrderController implements Initializable {
     public TextField txtqty1;
     public TextField txtBillOrder;
     public Label lblNetTotal;
+    public Label lblOrderId;
 
     //public DatePicker dpOrderDeadLine;
     //public Label lblOrderId;
@@ -105,8 +107,8 @@ public class ManageOrderController implements Initializable {
     private String agentId;
     public static ArrayList<AgentDto> agentView= new ArrayList();
     private AnchorPane ControllArea;
-    public static ArrayList<Order> OrderView= new ArrayList();
-    ArrayList<Order> orderView=new ArrayList<>();
+    public static ArrayList<OrderDto> OrderView= new ArrayList();
+    ArrayList<OrderDto> orderView=new ArrayList<>();
     private ObservableList<Object> observableList;
     private String productId="";
     private ArrayList<ProductDto> productView=new ArrayList<>();
@@ -120,6 +122,7 @@ public class ManageOrderController implements Initializable {
         loadAgentIdComboBox();
         loadProductIdComboBox();
         txtOrderDate.setText(String.valueOf(LocalDate.now()));
+        generateNewOrderId();
 
         colOrderId.setCellValueFactory(new PropertyValueFactory<>("order_id"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -131,6 +134,15 @@ public class ManageOrderController implements Initializable {
 
 
         //load();
+    }
+
+    public void generateNewOrderId() throws SQLException {
+        try{
+            String nextOrderId= OrderModel.generateNextOrderId();
+            lblOrderId.setText(nextOrderId);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -309,7 +321,7 @@ public class ManageOrderController implements Initializable {
         try {
             for (int i = 0; i < tblOrder.getItems().size(); i++) {
                 OrderTM orderTM = obList.get(i);
-                Order order = new Order(orderTM.getOrder_id(),
+                OrderDto order = new OrderDto(orderTM.getOrder_id(),
                         orderTM.getDate(),
                         orderTM.getAgent_id(),
                         orderTM.getProduct_id(),

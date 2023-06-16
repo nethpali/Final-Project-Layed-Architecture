@@ -14,20 +14,14 @@ import lk.ijse.Roosalu.bo.Custom.RawMaterialBO;
 import lk.ijse.Roosalu.dao.Custom.AgentDAO;
 import lk.ijse.Roosalu.dao.Custom.RawMaterialDAO;
 import lk.ijse.Roosalu.dao.DAOFactory;
-import lk.ijse.Roosalu.db.DBConnection;
 import lk.ijse.Roosalu.dto.AgentDto;
-import lk.ijse.Roosalu.dto.Order;
+import lk.ijse.Roosalu.dto.OrderDto;
 import lk.ijse.Roosalu.dto.RawMaterialDto;
-import lk.ijse.Roosalu.dto.tm.AgentTM;
 import lk.ijse.Roosalu.dto.tm.RawMaterialTM;
 import lk.ijse.Roosalu.model.AgentModel;
-import lk.ijse.Roosalu.model.RawMaterialModel;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +69,7 @@ public class RawMaterialManagmentController implements Initializable {
     private ComboBox<String> cmbOrderId;
     private ObservableList<RawMaterialTM> observableList;
     private String OrderId;
-    public static ArrayList<Order> OrderArrayList= new ArrayList();
+    public static ArrayList<OrderDto> OrderArrayList= new ArrayList();
     private String agentId;
     public static ArrayList<AgentDto> AgentArrayList= new ArrayList();
 
@@ -179,7 +173,7 @@ public class RawMaterialManagmentController implements Initializable {
          cmbAgentId.setValue(rawMaterialDto.getAgent_id());
     }
 
-    public void loadAgentIdComboBox() throws SQLException, ClassNotFoundException {
+    public void loadAgentIdComboBox() throws SQLException {
         ObservableList<String> list = FXCollections.observableArrayList();
         List<String> id =rawMaterialDAO.loadAgentId();
         for (String a : id) {

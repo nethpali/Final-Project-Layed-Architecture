@@ -2,13 +2,13 @@ package lk.ijse.Roosalu.model;
 
 import javafx.scene.control.Alert;
 import lk.ijse.Roosalu.db.DBConnection;
-import lk.ijse.Roosalu.dto.Order;
+import lk.ijse.Roosalu.dto.OrderDto;
 import lk.ijse.Roosalu.dto.ProductDto;
 
 import java.sql.SQLException;
 
 public class PlaceOrderModal {
-    public static boolean placeOrder(Order order, ProductDto production){
+    public static boolean placeOrder(OrderDto order, ProductDto production){
         try {
             DBConnection.getInstance().getConnection().setAutoCommit(false);
             if (OrderModel.save(order)){

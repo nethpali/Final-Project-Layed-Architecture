@@ -12,8 +12,7 @@ import lk.ijse.Roosalu.Util.Regex;
 import lk.ijse.Roosalu.Util.TextFields;
 import lk.ijse.Roosalu.bo.BoFactory;
 import lk.ijse.Roosalu.bo.Custom.ProductBO;
-import lk.ijse.Roosalu.dto.AgentDto;
-import lk.ijse.Roosalu.dto.Order;
+import lk.ijse.Roosalu.dto.OrderDto;
 import lk.ijse.Roosalu.dto.ProductDto;
 import lk.ijse.Roosalu.dto.RawMaterialDto;
 import lk.ijse.Roosalu.dto.tm.ProductionTM;
@@ -84,7 +83,7 @@ public class ManageProductionController implements Initializable {
     private String rawmaterialid;
     public static ArrayList<RawMaterialDto> rawMaterialArrayList= new ArrayList();
     private String OrderId;
-    private ArrayList<Order> OrderArrayList;
+    private ArrayList<OrderDto> OrderArrayList;
 
     ProductBO productBO= (ProductBO) BoFactory.getBoFactory().getBO(BoFactory.BOTypes.PRODUCT);
     @SneakyThrows
@@ -200,7 +199,7 @@ public class ManageProductionController implements Initializable {
     public void cmbOrderIdOnAction(ActionEvent actionEvent) {
         OrderId= (String) cmbOrderId.getValue();
         try {
-            Order order= OrderModel.search(OrderId);
+            OrderDto order= OrderModel.search(OrderId);
             cmbOrderId.setValue(OrderId);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();

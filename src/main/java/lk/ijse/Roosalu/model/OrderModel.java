@@ -2,14 +2,14 @@ package lk.ijse.Roosalu.model;
 
 import lk.ijse.Roosalu.Util.CrudUtil;
 import lk.ijse.Roosalu.db.DBConnection;
-import lk.ijse.Roosalu.dto.Order;
+import lk.ijse.Roosalu.dto.OrderDto;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderModel {
-    public static boolean save(Order order) throws SQLException {
+    public static boolean save(OrderDto order) throws SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO orders " + "VALUE (?,?,?,?,?,?,?)");
         pstm.setString(1,order.getOrder_id());
@@ -24,15 +24,15 @@ public class OrderModel {
     }
 
 
-    public static List<Order> getAll() throws SQLException {
+    public static List<OrderDto> getAll() throws SQLException {
         Connection con = DBConnection.getInstance().getConnection();
         String sql = "SELECT * FROM orders";
 
-        List<Order> data = new ArrayList<>();
+        List<OrderDto> data = new ArrayList<>();
 
         ResultSet resultSet = con.createStatement().executeQuery(sql);
         while (resultSet.next()) {
-            data.add(new Order(
+            data.add(new OrderDto(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -46,29 +46,29 @@ public class OrderModel {
         return data;
     }
 
-    public static ArrayList<Order> View() throws SQLException, ClassNotFoundException {
-        ArrayList<Order> orderView = new ArrayList<>();
+    public static ArrayList<OrderDto> View() throws SQLException, ClassNotFoundException {
+        ArrayList<OrderDto> orderView = new ArrayList<>();
         ResultSet rst = CrudUtil.execute("SELECT * FROM `orders`");
 
         while (rst.next()) {
             orderView.add(
-                    new Order(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getDouble(5), rst.getInt(6), rst.getDouble(7))
+                    new OrderDto(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getDouble(5), rst.getInt(6), rst.getDouble(7))
             );
 
         }
         return orderView;
     }
 
-    public static Order search(String orderId) throws SQLException, ClassNotFoundException {
+    public static OrderDto search(String orderId) throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("SELECT * FROM orders WHERE order_id='" + orderId + "'");
         System.out.println(rst);
         if (rst.next()) {
-            return new Order(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getDouble(5), rst.getInt(6), rst.getDouble(7));
+            return new OrderDto(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getDouble(5), rst.getInt(6), rst.getDouble(7));
         }
         return null;
     }
 
-    public static boolean update(Order order) throws SQLException, ClassNotFoundException {
+    public static boolean update(OrderDto order) throws SQLException, ClassNotFoundException {
         boolean i = CrudUtil.execute("UPDATE orders set description=? where order_id=?",
                 order.getOrder_id()
         );
